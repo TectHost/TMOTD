@@ -1,0 +1,22 @@
+# HEX: &#<code>
+# Example: &#C03AFE
+#
+# Gradients: https://hex.tect.host/
+motds:
+  motd_list:
+    - motd1
+    - motd2
+  motd1:
+    lines:
+      - "&aWelcome to the server!"
+      - "&6Have fun playing!"
+  motd2:
+    lines:
+      - "&eWelcome to the server!"
+      - "&bHave fun playing!"
+change_interval: 5
+messages:
+  motd_set_success: "&aMOTD has been successfully updated!"
+  motd_set_usage: "&cUsage: /motd set <line1> <line2> - Sets the MOTD."
+  motd_reload: "&aConfiguration reloaded correctly."
+  no_permission_msg: "&cYou do not have permission to use this command."
