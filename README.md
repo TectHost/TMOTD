@@ -11,10 +11,12 @@ Simple optimized motd plugin
 # Commands
 - /motd set (line 1) (line2)
 - /motd reload
+- /motd version
 
 # Permissions
 - tmotd.reload
 - tmotd.set
+- tmotd.version
 
 # Dependencies
 - None
