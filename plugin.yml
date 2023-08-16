@@ -1,8 +1,8 @@
 main: minealex.tmotd.TMOTD
-version: 1.2
+version: 1.3
 name: TMOTD
 
 commands:
   motd:
     description: Set the MOTD or reload the configuration.
-    usage: /motd set <message> | /motd reload
+    usage: /motd set <message> | /motd reload  | /motd version

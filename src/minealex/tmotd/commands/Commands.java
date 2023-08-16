@@ -9,19 +9,9 @@ import minealex.tmotd.TMOTD;
 public class Commands implements CommandExecutor {
 
     private final TMOTD plugin;
-    private String motdSetSuccessMsg;
-    private String motdSetUsageMsg;
-    private String motdReloadMsg;
-    private String noPermissionMsg;
 
     public Commands(TMOTD plugin) {
         this.plugin = plugin;
-
-        // Cargar mensajes customizables desde el archivo config.yml
-        motdSetSuccessMsg = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.motd_set_success"));
-        motdSetUsageMsg = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.motd_set_usage"));
-        motdReloadMsg = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.motd_reload"));
-        noPermissionMsg = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.no_permission_msg"));
     }
 
     @Override
@@ -29,30 +19,38 @@ public class Commands implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("motd")) {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("set") && args.length >= 3) {
-                    // Verificar el permiso para ejecutar /motd set
                     if (!sender.hasPermission("tmotd.set")) {
-                        sender.sendMessage(noPermissionMsg);
+                        sender.sendMessage(plugin.getNoPermissionMsg());
                         return true;
                     }
-                    // Código para actualizar el MOTD, igual que antes
-                    // ...
-                    sender.sendMessage(motdSetSuccessMsg); // Enviar mensaje personalizado
+                    StringBuilder newMotd = new StringBuilder();
+                    for (int i = 1; i < args.length; i++) {
+                        newMotd.append(args[i]);
+                        if (i < args.length - 1) {
+                            newMotd.append(" ");
+                        }
+                    }
+                    plugin.setMotd(newMotd.toString());
+                    sender.sendMessage(plugin.getMotdSetSuccessMsg());
                     return true;
                 } else if (args[0].equalsIgnoreCase("reload")) {
-                    // Verificar el permiso para ejecutar /motd reload
                     if (!sender.hasPermission("tmotd.reload")) {
-                        sender.sendMessage(noPermissionMsg);
+                        sender.sendMessage(plugin.getNoPermissionMsg());
                         return true;
                     }
-                    plugin.reloadConfig(); // Recarga la configuración del archivo config.yml
-                    plugin.loadConfig(); // Vuelve a cargar la configuración en el plugin
-                    sender.sendMessage(motdReloadMsg); // Enviar mensaje personalizado
+                    plugin.reloadConfig();
+                    plugin.loadConfig();
+                    sender.sendMessage(plugin.getMotdReloadMsg());
+                    return true;
+                } else if (args[0].equalsIgnoreCase("version")) {
+                    String pluginVersionMsg = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.plugin_version_msg"));
+                    pluginVersionMsg = pluginVersionMsg.replace("%version%", plugin.getDescription().getVersion());
+                    sender.sendMessage(pluginVersionMsg);
                     return true;
                 }
             }
-            // Mostrar el uso correcto del comando
-            sender.sendMessage(ChatColor.RED + "Uso:");
-            sender.sendMessage(motdSetUsageMsg); // Enviar mensaje personalizado
+            sender.sendMessage(ChatColor.RED + "Usage:");
+            sender.sendMessage(plugin.getMotdSetUsageMsg());
             return true;
         }
         return false;
