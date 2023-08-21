@@ -123,6 +123,10 @@ public class TMOTD extends JavaPlugin implements Listener, CommandExecutor {
                     sender.sendMessage(motdReloadMsg);
                     return true;
                 } else if (args[0].equalsIgnoreCase("version")) {
+                    if (!sender.hasPermission("tmotd.version")) {
+                        sender.sendMessage(noPermissionMsg);
+                        return true;
+                    }
                     String pluginVersionMsg = ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.plugin_version_msg"));
                     pluginVersionMsg = pluginVersionMsg.replace("%version%", getDescription().getVersion());
                     sender.sendMessage(pluginVersionMsg);

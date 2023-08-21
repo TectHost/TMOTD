@@ -43,6 +43,10 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(plugin.getMotdReloadMsg());
                     return true;
                 } else if (args[0].equalsIgnoreCase("version")) {
+                    if (!sender.hasPermission("tmotd.version")) {
+                        sender.sendMessage(plugin.getNoPermissionMsg());
+                        return true;
+                    }
                     String pluginVersionMsg = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.plugin_version_msg"));
                     pluginVersionMsg = pluginVersionMsg.replace("%version%", plugin.getDescription().getVersion());
                     sender.sendMessage(pluginVersionMsg);
